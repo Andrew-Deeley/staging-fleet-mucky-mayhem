@@ -1,5 +1,9 @@
 # Client deployment setup
 
+**Updated direction:** [Production on its GitHub Pages address](production-github-preview.md) describes the approved GitHub-only production candidate. The initial empty-production hold below is historical once that candidate is published; custom-domain cutover remains separately disabled.
+
+## Initial setup record
+
 Owner: Andrew-Deeley. Developer: Martin-Ferrero-Thompson. During setup Martin retains his own Git author name/email. Andy observes through the public source repository and preview. Account-owner access is always full control; observer status is an agreement, not a restricted owner role.
 
 ## Paths and branches
