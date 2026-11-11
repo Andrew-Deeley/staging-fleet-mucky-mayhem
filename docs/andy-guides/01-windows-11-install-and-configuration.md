@@ -1,12 +1,14 @@
 # Andy's Windows 11 laptop setup
 
-**Fleet Mucky Mayhem · Stage 1: install, configure and prepare the project folder**  
-**Version:** 0.1 — draft for Andy and Martin to review  
+**Fleet Mucky Mayhem · Stage 1: install, configure and prepare the project folder**
+
+**Version:** 0.2 — draft for Andy and Martin to review
+
 **Prepared:** 11 November 2026
 
 ## Start here
 
-Andy, this guide gets your laptop ready for future website maintenance. Follow it from top to bottom. Each stage ends with a **Checkpoint** so you can confirm the expected result before continuing.
+Andy, this guide gets your personal Windows 11 x64 laptop ready for future website maintenance. All installer choices below are tailored to that laptop. Follow it from top to bottom. Each stage ends with a **Checkpoint** so you can confirm the expected result before continuing.
 
 Allow about **45–60 minutes**, plus download time. It is fine to stop at a checkpoint and continue later.
 
@@ -54,32 +56,21 @@ A **terminal** is a panel where you type a command and read its response. This g
 
 1. Save any open work and connect the laptop to power and the internet.
 2. Use your normal Windows account.
-3. If the laptop is managed by an employer or another administrator, confirm you are allowed to install these tools. Git or Node may request administrator approval; ask Martin or the administrator if you cannot complete that prompt.
+3. Git or Node may display a Windows administrator approval prompt during installation. Check that it refers to the installer you just opened, then approve it. If Windows asks for administrator credentials you do not have, ask Martin for help.
 4. If any of these tools are already installed, tell Martin their versions before replacing or removing them. Existing installations may be used by other projects. You can use the checks in [Section 10](#10-check-the-installed-tools) to collect versions first.
 
-### 2.2 Check whether the laptop is x64 or ARM64
+### 2.2 Use the x64 installers
 
-1. Open the Windows **Start** menu and choose **Settings**.
-2. Select **System → About**.
-3. Under **Device specifications**, find **System type**.
-4. Note whether it says **x64-based processor** or **ARM-based processor**.
+Your laptop is confirmed as **x64**, so choose **x64** or **64-bit x64** wherever a download page offers an installer type. The steps below name the x64 option for each tool.
 
-| Windows reports | Download choice |
-| --- | --- |
-| x64-based processor — common on Intel/AMD laptops | **x64** / **64-bit x64** |
-| ARM-based processor | **ARM64** |
-| Anything unclear | Ask Martin to confirm before downloading. |
-
-Use the matching architecture on each official download page. **x64 and ARM64 are different choices.**
-
-**Checkpoint:** You know which Windows installer type your laptop needs.
+**Checkpoint:** You are ready to install the Windows x64 versions on your own laptop.
 
 ## 3. Install Visual Studio Code
 
 ### 3.1 Download
 
 1. Open your web browser and visit the [official VS Code download page](https://code.visualstudio.com/download).
-2. Choose the **Windows User Installer** for your architecture.
+2. Choose the **Windows User Installer — x64**.
 3. Use the normal **Stable** release. Save the installer in **Downloads**.
 
 The User Installer installs for your Windows account and normally does not require administrator rights. Choose **Visual Studio Code**, not the separate Visual Studio development suite. Microsoft's [Windows setup instructions](https://code.visualstudio.com/docs/setup/windows) explain the installer choices.
@@ -109,7 +100,7 @@ Microsoft confirms that AI features are optional and an account is not needed fo
 ### 4.1 Download
 
 1. Visit the [official Git for Windows download page](https://git-scm.com/install/windows).
-2. Choose the normal **Standalone Installer / Setup** for your architecture.
+2. Under **Standalone Installer**, choose **Git for Windows/x64 Setup**.
 3. Save and run the installer from **Downloads**.
 
 Use the maintained version offered by that page. This guide was checked when Git for Windows **2.56.1** was available; a later maintained version can show a different version number.
@@ -136,12 +127,9 @@ For this guide use **Node.js 24.22.2 LTS**, a Node 24 maintenance release availa
 
 ### 5.1 Download the Windows installer
 
-Open the appropriate official installer link:
+Open the [Node.js 24.22.2 x64 Windows Installer](https://nodejs.org/dist/v24.22.2/node-v24.22.2-x64.msi).
 
-- **x64 laptop:** [Node.js 24.22.2 x64 Windows Installer](https://nodejs.org/dist/v24.22.2/node-v24.22.2-x64.msi).
-- **ARM64 laptop:** [Node.js 24.22.2 ARM64 Windows Installer](https://nodejs.org/dist/v24.22.2/node-v24.22.2-arm64.msi).
-
-These links are listed in the [official release announcement](https://nodejs.org/en/blog/release/v24.22.2). If the browser asks whether to save the file, save it in Downloads.
+This installer is listed in the [official release announcement](https://nodejs.org/en/blog/release/v24.22.2). If the browser asks whether to save the file, save it in Downloads.
 
 ### 5.2 Install
 
@@ -299,7 +287,7 @@ Type:
 code --version
 ```
 
-**Expected:** A version number, followed by other identification lines such as a long build identifier and `x64` or `arm64`. The exact Stable version can change. Record the first line.
+**Expected:** A version number, followed by other identification lines such as a long build identifier and `x64`. The exact Stable version can change. Record the first line.
 
 ### 10.2 Git
 
@@ -368,7 +356,8 @@ Fill this in for your review with Martin. Blank cells are for your own results, 
 | Item | Your result |
 | --- | --- |
 | Date completed | |
-| Windows system type: x64 or ARM64 | |
+| Laptop | Personal Windows 11 laptop |
+| Windows system type | x64 (confirmed) |
 | Actual project-container path | |
 | VS Code version: first line of output | |
 | Git version | |
