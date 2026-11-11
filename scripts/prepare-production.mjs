@@ -15,6 +15,9 @@ if (preview) {
   if (existsSync(output + '/CNAME')) throw new Error('GitHub preview must not bind a custom domain.');
 } else if (html.includes('noindex') || html.includes('/fleet-mucky-mayhem/')) throw new Error('Expected root-domain production build.');
 if (readdirSync(output, {recursive:true}).some(file => /(?:^|[\\/])(?:\.git|node_modules|src)(?:[\\/]|$)|\.map$/.test(String(file)))) throw new Error('Unexpected source or dependency files in production output.');
+const website = preview ? 'https://andrew-deeley.github.io/fleet-mucky-mayhem/' : 'https://fleetmuckymayhem.com/';
+const readme = readFileSync(new URL('../docs/production-repository-readme.md', import.meta.url), 'utf8').replaceAll('{{WEBSITE_URL}}', website);
+writeFileSync(output + '/README.md', readme);
 writeFileSync(output + '/.nojekyll', '');
 if (!preview) writeFileSync(output + '/CNAME', 'fleetmuckymayhem.com\n');
 writeFileSync(output + '/release-version.json', JSON.stringify({version:'v'+version, source, target})+'\n');
