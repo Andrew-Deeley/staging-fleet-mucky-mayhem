@@ -12,11 +12,13 @@ Website source and staging preview for the Fleet Mucky Mayhem cycling group.
 Staging preview: https://andrew-deeley.github.io/staging-fleet-mucky-mayhem/
 
 The preview is public and asks search engines not to index it. It is not access restricted.
+Production candidate: https://andrew-deeley.github.io/fleet-mucky-mayhem/
+
 Production domain, after separately authorised launch: https://fleetmuckymayhem.com/
 
 ## Current phase
 
-Pre-launch setup and remote acceptance. Production publishing is disabled. The existing IONOS website remains live. Setup history is provisional: at separately authorised go-live, preserve it outside these client repositories and establish one approved source baseline. After go-live retain source commits normally. Production history contains publication commits only. Do not rewrite history as part of routine releases.
+Pre-launch setup and remote acceptance. The production candidate is published to its normal GitHub Pages address after protected release approval. Custom-domain cutover remains disabled. The existing IONOS website remains live. Setup history is provisional: at separately authorised go-live, preserve it outside these client repositories and establish one approved source baseline. After go-live retain source commits normally. Production history contains publication commits only. Do not rewrite history as part of routine releases.
 
 Martin develops through his own GitHub account and authors his own commits. Andy observes for now; the owner account has full owner permissions whenever used. Final release ownership and operating guides will be confirmed during handover.
 
@@ -30,6 +32,7 @@ npm test
 npm run check
 npm run build
 npm run build:staging
+npm run build:production-preview
 npm run dev
 ```
 

@@ -4,11 +4,22 @@ if [[ "${GITHUB_REPOSITORY:-}" != 'Andrew-Deeley/staging-fleet-mucky-mayhem' || 
   echo 'Only the client production source branch may publish.' >&2; exit 1
 fi
 if [[ -z "${FMM_PRODUCTION_DEPLOY_KEY:-}" ]]; then echo 'Missing dedicated production publishing key.' >&2; exit 1; fi
-build="$PWD/dist"
+case "${FMM_PUBLISH_TARGET:-}" in
+  github-pages) build="$PWD/artifacts/production-site" ;;
+  custom-domain) build="$PWD/dist" ;;
+  *) echo 'Choose an explicit publication target.' >&2; exit 1 ;;
+esac
 test -f "$build/index.html"
 test -f "$build/release-version.json"
-test "$(cat "$build/CNAME")" = 'fleetmuckymayhem.com'
-version=$(node -p 'JSON.parse(require("node:fs").readFileSync("dist/release-version.json")).version')
+if [[ "$FMM_PUBLISH_TARGET" == github-pages ]]; then
+  test ! -e "$build/CNAME"
+else
+  test "${FMM_DOMAIN_CUTOVER_ENABLED:-}" = true
+  test "${FMM_PRODUCTION_DOMAIN:-}" = fleetmuckymayhem.com
+  test "$(cat "$build/CNAME")" = fleetmuckymayhem.com
+fi
+export FMM_RELEASE_MANIFEST="$build/release-version.json"
+version=$(node --input-type=module -e 'import {readFileSync} from "node:fs"; const release=JSON.parse(readFileSync(process.env.FMM_RELEASE_MANIFEST)); if(release.source!==process.env.GITHUB_SHA || release.target!==process.env.FMM_PUBLISH_TARGET || !/^v[0-9]+\.[0-9]+\.[0-9]+$/.test(release.version)) throw new Error("Release metadata does not match this publication"); console.log(release.version);')
 umask 077
 key_file=$(mktemp)
 hosts_file=$(mktemp)
@@ -26,8 +37,8 @@ if git -C "$publish_dir" show-ref --verify --quiet refs/remotes/origin/main; the
     node --input-type=module - "$publish_dir/release-version.json" <<'JS'
 import {readFileSync} from 'node:fs';
 const old = JSON.parse(readFileSync(process.argv[2]));
-const next = JSON.parse(readFileSync('dist/release-version.json'));
-if (old.version === next.version && old.source !== next.source) throw new Error('Increment the release version before publishing changed source.');
+const next = JSON.parse(readFileSync(process.env.FMM_RELEASE_MANIFEST));
+if (old.version === next.version && (old.source !== next.source || old.target !== next.target)) throw new Error('Increment the release version before publishing changed source.');
 JS
   fi
 else
