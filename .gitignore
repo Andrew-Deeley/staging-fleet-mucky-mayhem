@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+artifacts/
+output/imagegen/
+.env
+.env.*
+!.env.example
+*.log

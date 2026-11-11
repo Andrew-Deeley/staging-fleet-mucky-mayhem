@@ -1,0 +1,63 @@
+---
+import rawPhotos from '../../public/data/photos.json';
+import { parsePhotoData, visiblePhotoYears } from '../lib/photos.ts';
+import PhotoLinks from './PhotoLinks.astro';
+const photos = parsePhotoData(rawPhotos);
+const years = visiblePhotoYears(photos);
+---
+<section id="photos" class="even-sections">
+  <div class="container-fluid d-flex align-items-center justify-content-center">
+    <div class="container text-center">
+      <h2 class="brand-text display-2 mb-4 text-center">Photos</h2>
+      <div class="d-flex flex-wrap justify-content-center gap-2">
+        <a href={photos.loanBikesUrl} target="_blank" rel="noopener noreferrer"
+          class="btn btn-lg btn-warning">Loan Bikes <i class="bi bi-box-arrow-up-right link-icon"> </i></a>
+        <div class="btn-group">
+          <button type="button" id="currentPhotosBtn" class="btn btn-lg btn-warning dropdown-toggle"
+            data-bs-toggle="dropdown" aria-expanded="false" disabled>Photos<span id="currentPhotosYear" class="visually-hidden"></span></button>
+          <ul id="currentPhotosMenu" class="dropdown-menu photo-menu" aria-labelledby="currentPhotosBtn"></ul>
+        </div>
+        <div class="btn-group">
+          <button type="button" id="archivePhotosBtn" class="btn btn-lg btn-secondary dropdown-toggle"
+            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
+            disabled>Archive Photos</button>
+          <ul id="archivePhotosMenu" class="dropdown-menu photo-menu" aria-labelledby="archivePhotosBtn"></ul>
+        </div>
+      </div>
+      <template id="photoCollections">
+            {years.map(collection => (
+              <li data-photo-year={collection.year} data-has-links="true">
+                <details name="photo-archive-year" class="photo-archive-year">
+                  <summary class="dropdown-item" id={'photo-year-' + collection.year}>
+                    {collection.year}<span aria-hidden="true" class="photo-year-arrow">▾</span>
+                  </summary>
+                  <ul class="list-unstyled photo-year-links" aria-labelledby={'photo-year-' + collection.year}>
+                    <PhotoLinks collection={collection} />
+                  </ul>
+                </details>
+              </li>
+            ))}
+      </template>
+      <div class="w-100">
+        <img src="img/fmm-flyer.png" alt="FMM Flyer" class="img-fluid mt-4" style="height: 500px; width: auto;" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../scripts/photos.ts"></script>
+
+<style>
+  .photo-menu {
+    width: min(24rem, calc(100vw - 2rem));
+    max-height: min(65vh, 32rem);
+    overflow-y: auto;
+  }
+  .photo-menu :global(.dropdown-item) { white-space: normal; }
+  .photo-archive-year summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; }
+  .photo-archive-year summary::-webkit-details-marker { display: none; }
+  .photo-archive-year[open] summary { color: #000; background: #ffc107; }
+  .photo-year-arrow { transition: transform .15s; }
+  .photo-archive-year[open] .photo-year-arrow { transform: rotate(180deg); }
+  .photo-year-links { padding-block: .5rem; margin-left: .5rem; border-left: 2px solid #ffc107; }
+</style>

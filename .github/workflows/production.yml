@@ -1,0 +1,36 @@
+name: Publish production
+on:
+  push:
+    branches: [production]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: production-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'Andrew-Deeley/staging-fleet-mucky-mayhem' && github.ref == 'refs/heads/production' && vars.FMM_PRODUCTION_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - name: Prepare release files
+        env:
+          FMM_PRODUCTION_DOMAIN: ${{ vars.FMM_PRODUCTION_DOMAIN }}
+        run: node scripts/prepare-production.mjs
+      - name: Publish release
+        env:
+          FMM_PRODUCTION_DEPLOY_KEY: ${{ secrets.FMM_PRODUCTION_DEPLOY_KEY }}
+        run: bash scripts/publish-production.sh

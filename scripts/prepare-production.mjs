@@ -1,0 +1,13 @@
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+if (process.env.FMM_PRODUCTION_DOMAIN !== 'fleetmuckymayhem.com') throw new Error('Production domain has not been authorised/configured.');
+const source = process.env.GITHUB_SHA;
+if (!/^[a-f0-9]{40}$/.test(source || '')) throw new Error('A source commit is required.');
+const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
+if (!/^\d+\.\d+\.\d+$/.test(version)) throw new Error('Set a numeric x.y.z release version in package.json.');
+const html = readFileSync('dist/index.html', 'utf8');
+if (html.includes('noindex') || html.includes('/staging-fleet-mucky-mayhem/')) throw new Error('Refusing staging HTML as production.');
+if (readdirSync('dist', {recursive:true}).some(file => /(?:^|[\\/])(?:\.git|node_modules|src)(?:[\\/]|$)|\.map$/.test(String(file)))) throw new Error('Unexpected source or dependency files in production output.');
+writeFileSync('dist/.nojekyll', '');
+writeFileSync('dist/CNAME', 'fleetmuckymayhem.com\n');
+writeFileSync('dist/release-version.json', JSON.stringify({version:'v'+version, source})+'\n');
+console.log('Prepared v'+version+' from '+source);
