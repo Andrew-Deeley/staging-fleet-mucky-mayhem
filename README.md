@@ -22,6 +22,10 @@ Pre-launch setup and remote acceptance. The production candidate is published to
 
 Martin develops through his own GitHub account and authors his own commits. Andy observes for now; the owner account has full owner permissions whenever used. Final release ownership and operating guides will be confirmed during handover.
 
+## Andy's setup guides
+
+- [Stage 1 — Windows 11 installation and configuration](docs/andy-guides/01-windows-11-install-and-configuration.md): draft for review, covering tools and the empty project container only. Repository connection is a later stage.
+
 ## Local commands
 
 Use Node 24 (tested with 24.22.1) and npm 11.19.1 in Linux/WSL.
